@@ -183,3 +183,8 @@ if __name__ == "__main__":
     unique_jobs = list({j["url"]: j for j in all_jobs}.values())
     links = build_direct_search_links()
     send_email(unique_jobs, links)
+
+    on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:  # මෙය අනිවාර්යයෙන් තිබිය යුතුය
