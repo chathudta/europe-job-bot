@@ -183,36 +183,3 @@ if __name__ == "__main__":
     unique_jobs = list({j["url"]: j for j in all_jobs}.values())
     links = build_direct_search_links()
     send_email(unique_jobs, links)
-
-daily_job_alert
-name: Daily Europe ERP Job Alert
-
-on:
-  schedule:
-    # Runs every day at 02:30 UTC (08:00 AM Sri Lanka Time)
-    - cron: '30 2 * * *'
-  workflow_dispatch: # Allows you to trigger it manually anytime with 1 click
-
-jobs:
-  run-job-scraper:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run Job Scraper & Send Email
-        env:
-          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
-          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
-          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
-          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
-          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
-        run: python europe_job_bot.py
